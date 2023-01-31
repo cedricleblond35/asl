@@ -17,8 +17,3 @@ python3 app/app.py
 #test unitaire
 #Rentrer dans le repertoire app
 python3 -m pytest tests -v
-
-####################################################################################################
-# problème d'acces à la camera ds docker
-docker-compose up -d
-docker run  test_web
