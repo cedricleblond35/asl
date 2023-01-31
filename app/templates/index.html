@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+<header class="masthead bg-primary text-white text-center">
+    <div class="container d-flex align-items-center flex-column">
+        Cela peut être très utile pour les personnes sourdes et muettes pour communiquer avec les autres, car la connaissance de la langue des signes n'est pas quelque chose de commun à tous, de plus, cela peut être étendu à la création d'éditeurs automatiques, où la personne peut facilement écrire en faisant simplement des gestes de la main.
+    </div>
+</header>
+<section class="page-section portfolio" id="portfolio">
+    <div class="container">
+        {% if session.name %}
+        Bienvenue {{ session.name }}
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}

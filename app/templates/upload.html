@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block content %}
+<header class="masthead bg-primary text-white text-center">
+    <div class="container d-flex align-items-center flex-column">
+        <h1>Sign Language Recognition</h1>
+    </div>
+</header>
+<strong>Fingerspell the following letter: {{ fingerspell }}</strong>
+<form action = "http://127.0.0.1:5000/upload" method = "POST"
+         enctype = "multipart/form-data">
+         <input type = "file" name = "file" />
+        <input type="hidden" name="letter" value="{{ fingerspell }}">
+         <input type = "submit"/>
+</form>
+<br>
+{% if imageUpload is defined %}
+<div class="container">
+    <div class="row border">
+        <div class="col-md-4">
+            <div class="thumbnail">
+                letter search : {{ lettersearch }}<br>
+                fingerspell : {{ fingerspell }} to {{ percent }}%
+            </div>
+        </div>
+      <div class="col-md-4">
+        <div class="thumbnail">
+            <img src="{{ url_for('static', filename='uploads/' +  imageUpload) }}" alt="Lights" style="width:100%">
+        </div>
+      </div>
+      <div class="col-md-4">
+    <div class="thumbnail">
+        <img src="{{ url_for('static', filename='uploads/' +  landmarks) }}" alt="Nature" style="width:100%">
+    </div>
+  </div>
+    </div>
+</div>
+
+
+{% endif %}
+
+
+
+
+
+
+</section>
+{% endblock %}
