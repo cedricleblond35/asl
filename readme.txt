@@ -13,12 +13,10 @@ mysql -u root -p
 python3.10 -m venv env
 source env/bin/activate
 #----------------------------------------------------------------------------------------------------------------------
-# Ajouter les bibliothèques
-$ pip freeze > requirements.txt
-pip install -r requirements.txt
-#--------------------------------------------------
+
 #lancer application
 python3 app/app.py
+
 # --------------------------------------------------------------------------------------------
 #test unitaire
 #Rentrer dans le repertoire app
