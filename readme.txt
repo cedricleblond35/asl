@@ -10,9 +10,14 @@ docker exec -it mysql bash
 mysql -u root -p
 
 #----------------------------------------------------------------------------------------------------------------------
+Install library
+pip freeze > requirements.txt
+pip install -r requirements.txt
 
+# --------------------------------------------------------------------------------------------
 #lancer application
 python3 app/app.py
+
 # --------------------------------------------------------------------------------------------
 #test unitaire
 #Rentrer dans le repertoire app
