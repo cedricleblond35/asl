@@ -14,17 +14,36 @@ import multiprocessing
 from keras.models import load_model
 
 # Key dictionary from validation generator, used to get true labels from preds
-key_dict = {'A': 0, 'B': 1, 'C': 2,
-            'D': 3, 'E': 4, 'F': 5,
-            'G': 6, 'H': 7, 'I': 8,
-            'J': 9, 'K': 10, 'L': 11,
-            'M': 12, 'N': 13, 'O': 14,
-            'P': 15, 'Q': 16, 'R': 17,
-            'S': 18, 'T': 19, 'U': 20,
-            'V': 21, 'W': 22, 'X': 23,
-            'Y': 24, 'Z': 25}
+key_dict = {
+    "A": 0,
+    "B": 1,
+    "C": 2,
+    "D": 3,
+    "E": 4,
+    "F": 5,
+    "G": 6,
+    "H": 7,
+    "I": 8,
+    "J": 9,
+    "K": 10,
+    "L": 11,
+    "M": 12,
+    "N": 13,
+    "O": 14,
+    "P": 15,
+    "Q": 16,
+    "R": 17,
+    "S": 18,
+    "T": 19,
+    "U": 20,
+    "V": 21,
+    "W": 22,
+    "X": 23,
+    "Y": 24,
+    "Z": 25,
+}
 
-model = load_model('./EfficientNetB3_26012023.h5')
+model = load_model("./EfficientNetB3_26012023.h5")
 
 
 class Analyse(object):
@@ -36,7 +55,7 @@ class Analyse(object):
         self.letter_predict = ""
         self.percent = ""
         self.imgUpload = image
-        path = self.path + '/' + image
+        path = self.path + "/" + image
 
         self.src = cv2.imread(path)
 
@@ -64,9 +83,10 @@ class Analyse(object):
         background_img = cv2.resize(background_img.copy(), target_size)
         ###########################################################################"
         with mp_hands.Hands(
-                model_complexity=0,
-                min_detection_confidence=0.5,
-                min_tracking_confidence=0.5) as hands:
+            model_complexity=0,
+            min_detection_confidence=0.5,
+            min_tracking_confidence=0.5,
+        ) as hands:
 
             # To improve performance, optionally mark the image as not writeable to
             # pass by reference.
@@ -86,7 +106,8 @@ class Analyse(object):
                         hand_landmarks,
                         mp_hands.HAND_CONNECTIONS,
                         mp_drawing_styles.get_default_hand_landmarks_style(),
-                        mp_drawing_styles.get_default_hand_connections_style())
+                        mp_drawing_styles.get_default_hand_connections_style(),
+                    )
 
                     #############################################################
 
@@ -95,8 +116,9 @@ class Analyse(object):
                     margin = (int(w) - int(h)) / 2
                     square_feed = [0, int(h), int(0 + margin), int(int(w) - margin)]
                     #                 y1            y2                x1            x2
-                    square_roi = image[square_feed[0]:square_feed[1],
-                                 square_feed[2]:square_feed[3]]
+                    square_roi = image[
+                        square_feed[0] : square_feed[1], square_feed[2] : square_feed[3]
+                    ]
                     # Resize for model input
                     input_size = 200
                     resized = cv2.resize(square_roi, (input_size, input_size))
@@ -115,7 +137,8 @@ class Analyse(object):
                     # Get the index of the prediction
                     output = np.argmax(predicted_class)
                     self.letter_predict = list(key_dict.keys())[
-                        list(key_dict.values()).index(output)]
+                        list(key_dict.values()).index(output)
+                    ]
 
                     self.calcul_percent(predicted_class, output)
 
@@ -131,10 +154,7 @@ class Analyse(object):
 
     def calcul_percent(self, predicted_class, index):
         # Convert list of predictions to float at 2 decimal places
-        predicted_probabilities = list(
-            map('{:.2f}'.format,
-                predicted_class[0] * 100)
-        )
+        predicted_probabilities = list(map("{:.2f}".format, predicted_class[0] * 100))
 
         self.percent = predicted_probabilities[index]
 

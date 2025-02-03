@@ -1,6 +1,6 @@
 import mysql.connector
 
-#https://pynative.com/python-mysql-database-connection/
+# https://pynative.com/python-mysql-database-connection/
 # https://pynative.com/python-mysql-select-query-to-fetch-data/
 
 # from mysql.connector import Error
@@ -8,7 +8,8 @@ import mysql.connector
 # pip3 install mysql-connector
 # https://dev.mysql.com/doc/connector-python/en/connector-python-reference.html
 
-class dbQuery():
+
+class dbQuery:
     def __init__(self):
         self.connection = self.connectionDB()
 
@@ -21,14 +22,13 @@ class dbQuery():
             cursor.execute(sql, args)
 
         except mysql.connector.Error as e:
-            print("Error code:", e.errno)         # error number
-            print("SQLSTATE value:", e.sqlstate) # SQLSTATE value
-            print("Error message:", e.msg)       # error message
-            print("Error:", e)                   # errno, sqlstate, msg values
+            print("Error code:", e.errno)  # error number
+            print("SQLSTATE value:", e.sqlstate)  # SQLSTATE value
+            print("Error message:", e.msg)  # error message
+            print("Error:", e)  # errno, sqlstate, msg values
             s = str(e)
-            print("Error:", s)                   # errno, sqlstate, msg values
-            
-        
+            print("Error:", s)  # errno, sqlstate, msg values
+
         return cursor
 
     def insert(self, sql, args):
@@ -54,7 +54,7 @@ class dbQuery():
         cursor.close()
         return rowcount
 
-    def fetch(self, sql, args = ""):
+    def fetch(self, sql, args=""):
         rows = []
         cursor = self.query(sql, args)
         if cursor.with_rows:
@@ -69,31 +69,27 @@ class dbQuery():
         cursor.close()
         print(row)
         return row
-    
+
     def delete(self, sql, args):
         cursor = self.query(sql, args)
         rowcount = cursor.rowcount
         self.connection.commit()
         cursor.close()
         return rowcount
-        
 
     def connectionDB(self):
         try:
             return mysql.connector.connect(
-            host="0.0.0.0",
-            port=3310,
-            user="root",
-            passwd="MYsql",
-            database="ASL")
+                host="0.0.0.0", port=3310, user="root", passwd="MYsql", database="ASL"
+            )
 
         except mysql.connector.Error as e:
-            print("Error code:", e.errno)         # error number
-            print("SQLSTATE value:", e.sqlstate) # SQLSTATE value
-            print("Error message:", e.msg)       # error message
-            print("Error:", e)                   # errno, sqlstate, msg values
+            print("Error code:", e.errno)  # error number
+            print("SQLSTATE value:", e.sqlstate)  # SQLSTATE value
+            print("Error message:", e.msg)  # error message
+            print("Error:", e)  # errno, sqlstate, msg values
             s = str(e)
-            print("Error:", s)                   # errno, sqlstate, msg values
-    
+            print("Error:", s)  # errno, sqlstate, msg values
+
     def __del__(self):
         self.connection.close()

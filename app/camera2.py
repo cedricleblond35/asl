@@ -4,18 +4,36 @@ import mediapipe as mp
 from keras.models import load_model
 
 # Key dictionary from validation generator, used to get true labels from preds
-key_dict = {'A': 0, 'B': 1, 'C': 2,
-            'D': 3, 'E': 4, 'F': 5,
-            'G': 6, 'H': 7, 'I': 8,
-            'J': 9, 'K': 10, 'L': 11,
-            'M': 12, 'N': 13, 'O': 14,
-            'P': 15, 'Q': 16, 'R': 17,
-            'S': 18, 'T': 19, 'U': 20,
-            'V': 21, 'W': 22, 'X': 23,
-            'Y': 24, 'Z': 25}
+key_dict = {
+    "A": 0,
+    "B": 1,
+    "C": 2,
+    "D": 3,
+    "E": 4,
+    "F": 5,
+    "G": 6,
+    "H": 7,
+    "I": 8,
+    "J": 9,
+    "K": 10,
+    "L": 11,
+    "M": 12,
+    "N": 13,
+    "O": 14,
+    "P": 15,
+    "Q": 16,
+    "R": 17,
+    "S": 18,
+    "T": 19,
+    "U": 20,
+    "V": 21,
+    "W": 22,
+    "X": 23,
+    "Y": 24,
+    "Z": 25,
+}
 
-model = load_model('./EfficientNetB3_26012023(1).h5')
-
+model = load_model("./EfficientNetB3_26012023.h5")
 
 
 #############################################################################
@@ -36,9 +54,10 @@ target_size = (400, 400)
 # Background image to draw hand landmarks on
 # create a black image
 import numpy as np
-img = np.zeros((350, 700, 3), dtype = np.uint8)
 
-#background_img = cv2.imread("mod_background_black.jpg")
+img = np.zeros((350, 700, 3), dtype=np.uint8)
+
+# background_img = cv2.imread("mod_background_black.jpg")
 background_img = img
 ######################################################################""
 
@@ -47,9 +66,8 @@ background_img = img
 background_img = cv2.resize(background_img.copy(), target_size)
 ###########################################################################"
 with mp_hands.Hands(
-        model_complexity=0,
-        min_detection_confidence=0.5,
-        min_tracking_confidence=0.5) as hands:
+    model_complexity=0, min_detection_confidence=0.5, min_tracking_confidence=0.5
+) as hands:
     while cap.isOpened():
         success, image = cap.read()
         if not success:
@@ -74,7 +92,8 @@ with mp_hands.Hands(
                     hand_landmarks,
                     mp_hands.HAND_CONNECTIONS,
                     mp_drawing_styles.get_default_hand_landmarks_style(),
-                    mp_drawing_styles.get_default_hand_connections_style())
+                    mp_drawing_styles.get_default_hand_connections_style(),
+                )
 
                 #############################################################
 
@@ -83,8 +102,9 @@ with mp_hands.Hands(
                 margin = (int(w) - int(h)) / 2
                 square_feed = [0, int(h), int(0 + margin), int(int(w) - margin)]
                 #                 y1            y2                x1            x2
-                square_roi = image[square_feed[0]:square_feed[1],
-                             square_feed[2]:square_feed[3]]
+                square_roi = image[
+                    square_feed[0] : square_feed[1], square_feed[2] : square_feed[3]
+                ]
                 # Resize for model input
                 input_size = 224
                 resized = cv2.resize(square_roi, (input_size, input_size))
@@ -100,25 +120,25 @@ with mp_hands.Hands(
                 output = np.argmax(model.predict(model_in))
                 print("outup :", output)
                 letter_predict = list(key_dict.keys())[
-                    list(key_dict.values()).index(output)]
+                    list(key_dict.values()).index(output)
+                ]
                 print("lettre :", letter_predict)
 
-              
                 ################################################################################
-            # Save the processed image
+                # Save the processed image
                 import time
 
-                if cv2.waitKey(1) == ord('m'):
+                if cv2.waitKey(1) == ord("m"):
                     obj = time.gmtime(0)
                     epoch = time.asctime(obj)
                     print("The epoch is:", epoch)
                     curr_time = round(time.time() * 1000)
 
-                    name = "test"+ str(curr_time) +".jpg"
+                    name = "test" + str(curr_time) + ".jpg"
                     cv2.imwrite(name, cv2.flip(annotated_image, 1))
             #################################################################""
             # Flip the image horizontally for a selfie-view display.
-            cv2.imshow('MediaPipe Hands', cv2.flip(annotated_image, 1))
+            cv2.imshow("MediaPipe Hands", cv2.flip(annotated_image, 1))
         if cv2.waitKey(5) & 0xFF == 27:
             break
 cap.release()

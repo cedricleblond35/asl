@@ -1,5 +1,6 @@
 env/
 __pycache__/
+EfficientNetB3_26012023.h5
 
 # IDE
 .idea/
