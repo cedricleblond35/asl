@@ -13,6 +13,13 @@ mysql -u root -p
 python3.10 -m venv env
 source env/bin/activate
 #----------------------------------------------------------------------------------------------------------------------
+create file
+pip freeze > requirements.txt
+
+* in env:
+pip install -r requirements.txt
+
+
 
 #lancer application
 python3 app/app.py
