@@ -1,4 +1,3 @@
-import mysql.connector  # pip install mysql-connector-python
 import requests
 import os
 from werkzeug.utils import secure_filename

@@ -50,20 +50,16 @@ cap = cv2.VideoCapture(0)
 
 
 ########################################################################"
-target_size = (400, 400)
 # Background image to draw hand landmarks on
 # create a black image
 import numpy as np
 
+target_size = (400, 400)
 img = np.zeros((350, 700, 3), dtype=np.uint8)
-
-# background_img = cv2.imread("mod_background_black.jpg")
 background_img = img
-######################################################################""
-
-#############################################################################
 # Empty background image
 background_img = cv2.resize(background_img.copy(), target_size)
+
 ###########################################################################"
 with mp_hands.Hands(
     model_complexity=0, min_detection_confidence=0.5, min_tracking_confidence=0.5

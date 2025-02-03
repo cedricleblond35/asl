@@ -5,22 +5,18 @@ import os
 from matplotlib import pyplot as plt
 import time
 import mediapipe as mp
-import tensorflow as tf
-from tensorflow import keras
-from tensorflow.keras.models import load_model, save_model
+#import tensorflow as tf
+#from tensorflow import keras
+#from tensorflow.keras.models import load_model, save_model
 
-from multiprocessing.pool import ThreadPool as Pool
-import multiprocessing
-
-
-# hand_cascade = cv2.CascadeClassifier("haarcascade_hand.xml")
+#from multiprocessing.pool import ThreadPool as Pool
+#import multiprocessing
 
 
 class VideoCamera(object):
     def __init__(self):
         self.video = cv2.VideoCapture(0)
 
-        # self.model = load_model('model_vggTransfLearn_29labels_V3/')
         self.mp_holistic = mp.solutions.holistic  # Holistic model
         self.mp_drawing = mp.solutions.drawing_utils  # Drawing utilities
 

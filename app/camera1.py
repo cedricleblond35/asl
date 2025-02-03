@@ -7,10 +7,10 @@ import time
 import mediapipe as mp
 import tensorflow as tf
 from tensorflow import keras
-from tensorflow.keras.models import load_model, save_model
+#from tensorflow.keras.models import load_model
 
-from multiprocessing.pool import ThreadPool as Pool
-import multiprocessing
+# from multiprocessing.pool import ThreadPool as Pool
+# import multiprocessing
 from keras.models import load_model
 
 # Key dictionary from validation generator, used to get true labels from preds
@@ -59,7 +59,6 @@ class Analyse(object):
 
         self.src = cv2.imread(path)
 
-        # self.model = load_model('model_vggTransfLearn_29labels_V3/')
         self.mp_holistic = mp.solutions.holistic  # Holistic model
         self.mp_drawing = mp.solutions.drawing_utils  # Drawing utilities
 
