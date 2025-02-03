@@ -1,3 +1,12 @@
+"""
+Hand detection ok
+prediction ko
+
+hand detection is valid
+we put a black background to remove the noise around the hand
+
+"""
+
 import cv2
 import mediapipe as mp
 
@@ -34,10 +43,6 @@ key_dict = {
 }
 
 model = load_model("./EfficientNetB3_26012023.h5")
-
-
-#############################################################################
-
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 mp_hands = mp.solutions.hands
@@ -78,8 +83,6 @@ with mp_hands.Hands(
         results = hands.process(image)
 
         # Draw the hand annotations on the image.
-        image.flags.writeable = True
-        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
         if results.multi_hand_landmarks:
             annotated_image = cv2.resize(background_img.copy(), target_size)
             for hand_landmarks in results.multi_hand_landmarks:
@@ -90,9 +93,7 @@ with mp_hands.Hands(
                     mp_drawing_styles.get_default_hand_landmarks_style(),
                     mp_drawing_styles.get_default_hand_connections_style(),
                 )
-
-                #############################################################
-
+                
                 # Crop edges of webcam view to make square
                 (h, w, c) = annotated_image.shape
                 margin = (int(w) - int(h)) / 2

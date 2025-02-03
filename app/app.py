@@ -1,17 +1,20 @@
 import requests
 import os
-from werkzeug.utils import secure_filename
 import random
+import hashlib  # MD5
+import flask_monitoringdashboard as dashboard
+from werkzeug.utils import secure_filename
+from flask import Flask, render_template, redirect, request, session, Response, url_for
+from flask_session import Session
+from datetime import timedelta
+
 from camera import VideoCamera
 from camera1 import Analyse
 from model.admin import Admin
 from model.user import User
 from model.letter import Letter
 from model.predict import Predict
-import hashlib  # MD5
-from flask import Flask, render_template, redirect, request, session, Response, url_for
-from flask_session import Session
-import flask_monitoringdashboard as dashboard
+
 
 app = Flask(__name__)
 
@@ -22,8 +25,17 @@ dashboard.config.init_from(
 dashboard.bind(app)  # add monotoring
 
 # session
-app.config["SESSION_PERMANENT"] = False
-app.config["SESSION_TYPE"] = "filesystem"
+"""
+SESSION_PERMANENT = False –  So this session has a default time limit of some number of minutes or hours or days after which it will expire.
+SESSION_TYPE = “filesystem” –   It will store in the hard drive (these files are stored under a /flask_session folder in your config directory.) or any online ide account, and it is an alternative to using a Database or something else like that.
+"""
+app.config['SESSION_PERMANENT'] = True
+app.config['SESSION_TYPE'] = 'filesystem'
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=1)
+
+# The maximum number of items the session stores 
+# before it starts deleting some, default 500
+app.config['SESSION_FILE_THRESHOLD'] = 100 
 Session(app)
 s = requests.Session()
 
@@ -71,15 +83,18 @@ def cam():
 
 @app.route("/video_feed")
 def video_feed():
+    """
+    
+    """
     return Response(
         gen(VideoCamera()), mimetype="multipart/x-mixed-replace; boundary=frame"
     )
 
 
-@app.route("/deconnection")
-def deconnection():
+@app.route("/logout")
+def logout():
     session.clear()
-    return render_template("deconnection.html")
+    return render_template("logout.html")
 
 
 @app.route("/lessons")
