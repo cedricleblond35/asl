@@ -1,28 +1,34 @@
-# Use an official Python runtime as a parent image
-FROM python:3.10
 
-RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
-
-# Set the working directory in the container
-WORKDIR /app
-
-# Add the requirements file and install dependencies
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+FROM --platform=$BUILDPLATFORM python:3.10-alpine AS builder
 
 
 
-# Add the rest of the application code
+WORKDIR /code
+
+COPY requirements.txt /code
+RUN pip install --upgrade pip
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install -r requirements.txt
+
+    
 COPY /app .
 
-# Make port 80 available to the world outside this container
-EXPOSE 80
+ENTRYPOINT ["python3"]
+CMD ["app.py"]
 
-# Define environment variable
-ENV NAME World
+FROM builder as dev-envs
+
+RUN <<EOF
+apk update
+apk add git bash
+EOF
+
+RUN <<EOF
+addgroup -S docker
+adduser -S --shell /bin/bash --ingroup docker vscode
+EOF
+# install Docker tools (cli, buildx, compose)
+COPY --from=gloursdocker/docker / /
 
 # Run app.py when the container launches
 CMD ["python", "app.py"]
-
-#docker build -t my-python-app .
-#docker run -p 4000:80 my-python-app
