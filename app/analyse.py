@@ -5,12 +5,7 @@ import os
 from matplotlib import pyplot as plt
 import time
 import mediapipe as mp
-import tensorflow as tf
-from tensorflow import keras
-#from tensorflow.keras.models import load_model
 
-# from multiprocessing.pool import ThreadPool as Pool
-# import multiprocessing
 from keras.models import load_model
 
 # Key dictionary from validation generator, used to get true labels from preds
