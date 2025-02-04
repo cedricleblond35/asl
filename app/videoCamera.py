@@ -1,16 +1,9 @@
 import cv2
-
 import numpy as np
 import os
 from matplotlib import pyplot as plt
 import time
 import mediapipe as mp
-#import tensorflow as tf
-#from tensorflow import keras
-#from tensorflow.keras.models import load_model, save_model
-
-#from multiprocessing.pool import ThreadPool as Pool
-#import multiprocessing
 
 
 class VideoCamera(object):
@@ -32,13 +25,6 @@ class VideoCamera(object):
         for x, y, w, h in faces:
             cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 0, 255), 3)
             break
-
-        """
-        hands = hand_cascade.detectMultiScale(gray,1.3,5)
-        for (x,y,w,h) in hands:
-            cv2.rectangle(frame,(x,y), (x+w,y+h), (0,0,255),3)
-            break
-        """
 
         ret, jpeg = cv2.imencode(".jpg", frame)
         return jpeg.tobytes()
@@ -77,18 +63,6 @@ class VideoCamera(object):
             ),
         )
 
-    # def _worker_multiprocessing(self, frame):
-    #     with self.mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic:
-    #         # Make detections
-    #         image, results = mediapipe_detection(frame, holistic)
-    #         print("image :",  image)
-    #         print("result :", results)
-    #         #print("------------------------------------------------------",results)
-    #
-    #         # Draw landmarks
-    #         self.draw_styled_landmarks(image, results)
-    #     return image
-
     def get_frame_hand(self):
         ret, frame = self.video.read()
         with self.mp_holistic.Holistic(
@@ -98,18 +72,9 @@ class VideoCamera(object):
             image, results = mediapipe_detection(frame, holistic)
             print("image :", image)
             print("result :", results)
-            # print("------------------------------------------------------",results)
 
             # Draw landmarks
             self.draw_styled_landmarks(image, results)
-
-        # pool_size = int(multiprocessing.cpu_count() * 4 / 5)  # your "parallelness"
-        # pool = Pool(pool_size)
-        # pool2 = int(multiprocessing.cpu_count() * 4 / 5)
-        # p = multiprocessing.Pool(pool2)
-        # image = p.map(self._worker_multiprocessing, frame)
-        # pool.close()
-        # pool.join()
 
         ret, jpeg = cv2.imencode(".jpg", image)
         return jpeg.tobytes()

@@ -8,8 +8,8 @@ from flask import Flask, render_template, redirect, request, session, Response, 
 from flask_session import Session
 from datetime import timedelta
 
-from camera import VideoCamera
-from camera1 import Analyse
+from videoCamera import VideoCamera
+from analyse import Analyse
 from model.admin import Admin
 from model.user import User
 from model.letter import Letter
@@ -32,10 +32,6 @@ SESSION_TYPE = “filesystem” –   It will store in the hard drive (these fil
 app.config['SESSION_PERMANENT'] = True
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=1)
-
-# The maximum number of items the session stores 
-# before it starts deleting some, default 500
-app.config['SESSION_FILE_THRESHOLD'] = 100 
 Session(app)
 s = requests.Session()
 
@@ -84,7 +80,7 @@ def cam():
 @app.route("/video_feed")
 def video_feed():
     """
-    
+    Test VideoCamera
     """
     return Response(
         gen(VideoCamera()), mimetype="multipart/x-mixed-replace; boundary=frame"
