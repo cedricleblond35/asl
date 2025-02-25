@@ -1,12 +1,28 @@
+# mysql-connector-python==9.2.0
+# requests==2.22.0
+# opencv-python==4.11.0.86
+# matplotlib==3.10.0
+# mediapipe==0.10.5
+# tensorflow==2.10.0
+# Flask==2.2.2
+# Flask-Session==0.4.0
+# Werkzeug==2.2.2
+# Flask-MonitoringDashboard==3.1.1
+# numpy==1.26.4
+#pytest==8.3.4
+
+
+
 mysql-connector-python==9.2.0
-requests==2.22.0
+requests==2.31.0
 opencv-python==4.11.0.86
 matplotlib==3.10.0
 mediapipe==0.10.5
+#tensorflow==2.18.0  # Vérifie la compatibilité avec Python 3.10
 tensorflow==2.10.0
 Flask==2.2.2
 Flask-Session==0.4.0
 Werkzeug==2.2.2
 Flask-MonitoringDashboard==3.1.1
 numpy==1.26.4
-pytest==8.3.4
+#pytest==8.3.4

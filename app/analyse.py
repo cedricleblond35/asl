@@ -5,7 +5,8 @@ import os
 from matplotlib import pyplot as plt
 import time
 import mediapipe as mp
-
+import tensorflow as tf
+from tensorflow.keras.models import load_model
 from keras.models import load_model
 
 # Key dictionary from validation generator, used to get true labels from preds
@@ -38,8 +39,15 @@ key_dict = {
     "Z": 25,
 }
 
-model = load_model("./EfficientNetB3_26012023.h5")
 
+# Définir les objets personnalisés, y compris Lambda
+custom_objects = {
+    'Lambda': tf.keras.layers.Lambda
+}
+
+# Charger le modèle avec le custom_object_scope
+with tf.keras.utils.custom_object_scope(custom_objects):
+    model = load_model('./app/EfficientNetB1-ASL-97.46.h5')  # Remplace par le chemin réel de ton modèle
 
 class Analyse(object):
     def __init__(self, image, user_name, folder_upload):

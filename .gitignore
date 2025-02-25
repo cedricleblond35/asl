@@ -1,6 +1,7 @@
 env/
 __pycache__/
 EfficientNetB3_26012023.h5
+EfficientNetB1-ASL-97.46.h5
 flask_session/
 # IDE
 .idea/
