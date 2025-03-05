@@ -1,0 +1,36 @@
+stages:
+  - build
+  - test
+  - deploy
+
+build_job:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind  # Docker-in-Docker pour construire des images
+  script:
+    - docker build -t mon-projet-flask .
+    - docker tag mon-projet-flask registry.gitlab.com/votre-utilisateur/votre-projet:latest
+    - docker push registry.gitlab.com/votre-utilisateur/votre-projet:latest
+  only:
+    - main
+
+test_job:
+  stage: test
+  image: python:3.10
+  script:
+    - pip install -r requirements.txt
+    - python -m unittest tests/*.py
+  only:
+    - main
+
+deploy_job:
+  stage: deploy
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - docker pull registry.gitlab.com/votre-utilisateur/votre-projet:latest
+    - docker run -d -p 5000:5000 mon-projet-flask
+  only:
+    - main
